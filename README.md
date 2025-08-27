@@ -75,7 +75,7 @@ For further customization and setup guidance, click the button below:
 ### Join Us
 
 <div align="center">
-  <a href="https://t.me/+3QhFUZHx-nhhZmY1">
+  <a href="https://t.me/Ebenezermodss/44">
     <img src="https://img.shields.io/badge/Join%20Telegram-0078E7?style=for-the-badge&logo=telegram&logoColor=white" alt="Join Telegram"/>
   </a>
   <a href="https://whatsapp.com/channel/0029VbBRPc3CMY0IePiiU808">
