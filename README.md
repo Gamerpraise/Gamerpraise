@@ -1,4 +1,4 @@
-# 🤖 G.praise Bot
+httpsss.praise Bot
 
 This is a WhatsApp bot built using the Baileys library for group management, including features like tagging all members, muting/unmuting, and many more. It's designed to help admins efficiently manage WhatsApp groups.
 
@@ -160,7 +160,7 @@ If you like this project, please give it a [⭐️ star on GitHub](https://githu
 ## Credits
 
 - [praise](https://github.com/Gamerpraise)
-- [Baileys](https://github.com/adiwajshing/Baileys)
+- BEkene kizito] (https://t.me/Ebenezermodss/44)
 - [TechGod143](https://github.com/TechGod143) for pair code
 - [Dgxeon](https://github.com/Dgxeon) for pair code
 - [Gamerpraise](https://youtube.com/Gamerpraise-mods) 
