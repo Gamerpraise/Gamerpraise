@@ -9,7 +9,7 @@ This is a WhatsApp bot built using the Baileys library for group management, inc
 </div> 
 
 <div align="center"> 
-  <a href="https://youtube.com/Gamerpraise-mods"> 
+  <a href="https://youtube.com/@gamerpraise-mods"> 
     <img src="https://github.com/Gamerpraise/G.praisebot-MD/blob/main/assets/bot_image.jpg" alt="G.praise Bot" height="300"> 
   </a> 
 </div>
