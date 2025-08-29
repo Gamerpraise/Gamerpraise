@@ -1,4 +1,4 @@
-##G.praise Bot
+httpsttpsttpstpsttpsttpsG.praise Bot
 
 This is a WhatsApp bot built using the Baileys library for group management, including features like tagging all members, muting/unmuting, and many more. It's designed to help admins efficiently manage WhatsApp groups.
 
@@ -41,7 +41,7 @@ Deploy the bot and easily connect it to your WhatsApp account by pair code. Clic
 </div>
 
 <div align="center">
-  <a href="httpsttpsttps://praise-pair.onrender.com/" target="_blank">
+  <a href="https://praise-pair.onrender.com/" target="_blank">
     <img src="https://img.shields.io/badge/GET%20PAIR%20CODE-Easy%20Method-ff4d4d?style=for-the-badge" alt="Generate Pair Code"/>
   </a>
 </div>
