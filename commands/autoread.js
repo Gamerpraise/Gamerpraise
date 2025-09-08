@@ -1,5 +1,5 @@
 /**
- * G.praise Bot - A WhatsApp Bot
+ * Gideon - A WhatsApp Bot
  * Autoread Command - Automatically read all messages
  */
 
@@ -29,7 +29,7 @@ async function autoreadCommand(sock, chatId, message) {
                     isForwarded: true,
                     forwardedNewsletterMessageInfo: {
                         newsletterJid: '120363421834739891@newsletter',
-                        newsletterName: 'G.praiseBot MD',
+                        newsletterName: 'Gideon MD',
                         serverMessageId: -1
                     }
                 }
@@ -60,7 +60,7 @@ async function autoreadCommand(sock, chatId, message) {
                         isForwarded: true,
                         forwardedNewsletterMessageInfo: {
                             newsletterJid: '120363421834739891@newsletter',
-                            newsletterName: 'G.praiseBot MD',
+                            newsletterName: 'Gideon MD',
                             serverMessageId: -1
                         }
                     }
@@ -83,7 +83,7 @@ async function autoreadCommand(sock, chatId, message) {
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '120363421834739891@newsletter',
-                    newsletterName: 'G.praiseBot MD',
+                    newsletterName: 'Gideon MD',
                     serverMessageId: -1
                 }
             }
@@ -98,7 +98,7 @@ async function autoreadCommand(sock, chatId, message) {
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '120363421834739891@newsletter',
-                    newsletterName: 'G.praiseBot MD',
+                    newsletterName: 'Gideon MD',
                     serverMessageId: -1
                 }
             }
@@ -152,7 +152,7 @@ function isBotMentionedInMessage(message, botNumber) {
         }
         
         // Check for bot name mentions (optional, can be customized)
-        const botNames = [global.botname?.toLowerCase(), 'bot', 'G.praise', 'G.praise bot'];
+        const botNames = [global.botname?.toLowerCase(), 'bot', 'knight', 'Gideon'];
         const words = textContent.toLowerCase().split(/\s+/);
         if (botNames.some(name => words.includes(name))) {
             return true;

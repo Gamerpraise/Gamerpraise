@@ -1,7 +1,7 @@
 const settings = require("../settings");
 async function aliveCommand(sock, chatId, message) {
     try {
-        const message1 = `*🤖 G.praise Bot is Active!*\n\n` +
+        const message1 = `*🤖 Gideon is Active!*\n\n` +
                        `*Version:* ${settings.version}\n` +
                        `*Status:* Online\n` +
                        `*Mode:* Public\n\n` +
@@ -19,7 +19,7 @@ async function aliveCommand(sock, chatId, message) {
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '120363421834739891@newsletter',
-                    newsletterName: 'G.praiseBot MD',
+                    newsletterName: 'Gideon MD',
                     serverMessageId: -1
                 }
             }

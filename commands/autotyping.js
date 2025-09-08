@@ -1,5 +1,5 @@
 /**
- * G.praise Bot - A WhatsApp Bot
+ * Gideon - A WhatsApp Bot
  * Autotyping Command - Shows fake typing status
  */
 
@@ -29,7 +29,7 @@ async function autotypingCommand(sock, chatId, message) {
                     isForwarded: true,
                     forwardedNewsletterMessageInfo: {
                         newsletterJid: '120363421834739891@newsletter',
-                        newsletterName: 'G.praiseBot MD',
+                        newsletterName: 'Gideon MD',
                         serverMessageId: -1
                     }
                 }
@@ -60,7 +60,7 @@ async function autotypingCommand(sock, chatId, message) {
                         isForwarded: true,
                         forwardedNewsletterMessageInfo: {
                             newsletterJid: '120363421834739891@newsletter',
-                            newsletterName: 'G.praiseBot MD',
+                            newsletterName: 'Gideon MD',
                             serverMessageId: -1
                         }
                     }
@@ -83,7 +83,7 @@ async function autotypingCommand(sock, chatId, message) {
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '120363421834739891@newsletter',
-                    newsletterName: 'G.praiseBot MD',
+                    newsletterName: 'Gideon MD',
                     serverMessageId: -1
                 }
             }
@@ -98,7 +98,7 @@ async function autotypingCommand(sock, chatId, message) {
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '120363421834739891@newsletter',
-                    newsletterName: 'G.praiseBot MD',
+                    newsletterName: 'Gideon MD',
                     serverMessageId: -1
                 }
             }

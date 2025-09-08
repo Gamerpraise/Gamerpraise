@@ -6,7 +6,7 @@ const settings = require('../settings');
 const webp = require('node-webpmux');
 const crypto = require('crypto');
 
-async function stickerCommand(sock, chatId, message) {
+async function stickercropCommand(sock, chatId, message) {
     // The message that will be quoted in the reply.
     const messageToQuote = message;
     
@@ -27,11 +27,11 @@ async function stickerCommand(sock, chatId, message) {
         };
     }
 
-    const mediaMessage = targetMessage.message?.imageMessage || targetMessage.message?.videoMessage || targetMessage.message?.documentMessage;
+    const mediaMessage = targetMessage.message?.imageMessage || targetMessage.message?.videoMessage || targetMessage.message?.documentMessage || targetMessage.message?.stickerMessage;
 
     if (!mediaMessage) {
         await sock.sendMessage(chatId, { 
-            text: 'Please reply to an image/video with .sticker, or send an image/video with .sticker as the caption.',
+            text: 'Please reply to an image/video/sticker with .crop, or send an image/video/sticker with .crop as the caption.',
             contextInfo: {
                 forwardingScore: 999,
                 isForwarded: true,
@@ -75,7 +75,7 @@ async function stickerCommand(sock, chatId, message) {
 
         // Generate temp file paths
         const tempInput = path.join(tmpDir, `temp_${Date.now()}`);
-        const tempOutput = path.join(tmpDir, `sticker_${Date.now()}.webp`);
+        const tempOutput = path.join(tmpDir, `crop_${Date.now()}.webp`);
 
         // Write media to temp file
         fs.writeFileSync(tempInput, mediaBuffer);
@@ -85,10 +85,11 @@ async function stickerCommand(sock, chatId, message) {
                           mediaMessage.mimetype?.includes('video') || 
                           mediaMessage.seconds > 0;
 
-        // Convert to WebP using ffmpeg with optimized settings for animated/non-animated
+        // Convert to WebP using ffmpeg with crop to square
+        // The crop filter will center-crop the image to a square
         const ffmpegCommand = isAnimated
-            ? `ffmpeg -i "${tempInput}" -vf "scale=512:512:force_original_aspect_ratio=decrease,fps=15,pad=512:512:(ow-iw)/2:(oh-ih)/2:color=#00000000" -c:v libwebp -preset default -loop 0 -vsync 0 -pix_fmt yuva420p -quality 75 -compression_level 6 "${tempOutput}"`
-            : `ffmpeg -i "${tempInput}" -vf "scale=512:512:force_original_aspect_ratio=decrease,format=rgba,pad=512:512:(ow-iw)/2:(oh-ih)/2:color=#00000000" -c:v libwebp -preset default -loop 0 -vsync 0 -pix_fmt yuva420p -quality 75 -compression_level 6 "${tempOutput}"`;
+            ? `ffmpeg -i "${tempInput}" -vf "crop=min(iw\\,ih):min(iw\\,ih),scale=512:512,fps=15" -c:v libwebp -preset default -loop 0 -vsync 0 -pix_fmt yuva420p -quality 75 -compression_level 6 "${tempOutput}"`
+            : `ffmpeg -i "${tempInput}" -vf "crop=min(iw\\,ih):min(iw\\,ih),scale=512:512,format=rgba" -c:v libwebp -preset default -loop 0 -vsync 0 -pix_fmt yuva420p -quality 75 -compression_level 6 "${tempOutput}"`;
 
         await new Promise((resolve, reject) => {
             exec(ffmpegCommand, (error) => {
@@ -110,7 +111,7 @@ async function stickerCommand(sock, chatId, message) {
         const json = {
             'sticker-pack-id': crypto.randomBytes(32).toString('hex'),
             'sticker-pack-name': settings.packname || 'Gideon',
-            'emojis': ['🤖']
+            'emojis': ['✂️']
         };
 
         // Create exif buffer
@@ -139,9 +140,9 @@ async function stickerCommand(sock, chatId, message) {
         }
 
     } catch (error) {
-        console.error('Error in sticker command:', error);
+        console.error('Error in stickercrop command:', error);
         await sock.sendMessage(chatId, { 
-            text: 'Failed to create sticker! Try again later.',
+            text: 'Failed to crop sticker! Try with an image.',
             contextInfo: {
                 forwardingScore: 999,
                 isForwarded: true,
@@ -155,4 +156,4 @@ async function stickerCommand(sock, chatId, message) {
     }
 }
 
-module.exports = stickerCommand;
+module.exports = stickercropCommand;
