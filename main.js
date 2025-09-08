@@ -31,6 +31,7 @@ const { incrementMessageCount, topMembers } = require('./commands/topmembers');
 const ownerCommand = require('./commands/owner');
 const deleteCommand = require('./commands/delete');
 const { handleAntilinkCommand, handleLinkDetection } = require('./commands/antilink');
+const { handleAntitagCommand, handleTagDetection } = require('./commands/antitag');
 const { Antilink } = require('./lib/antilink');
 const memeCommand = require('./commands/meme');
 const tagCommand = require('./commands/tag');
@@ -97,13 +98,18 @@ const { rosedayCommand } = require('./commands/roseday');
 const imagineCommand = require('./commands/imagine');
 const videoCommand = require('./commands/video');
 const sudoCommand = require('./commands/sudo');
-
-
+const { miscCommand, handleHeart } = require('./commands/misc');
+const { animeCommand } = require('./commands/anime');
+const { piesCommand, piesAlias } = require('./commands/pies');
+const stickercropCommand = require('./commands/stickercrop');
+const updateCommand = require('./commands/update');
+const removebgCommand = require('./commands/removebg');
+const { reminiCommand } = require('./commands/remini');
 // Global settings
 global.packname = settings.packname;
 global.author = settings.author;
 global.channelLink = "https://whatsapp.com/channel/0029VbBRPc3CMY0IePiiU808";
-global.ytch = "G.praise";
+global.ytch = "Gamerpraise";
 
 // Add this near the top of main.js with other global configurations
 const channelInfo = {
@@ -112,7 +118,7 @@ const channelInfo = {
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
             newsletterJid: '120363421834739891@newsletter',
-            newsletterName: 'G.praiseBot MD',
+            newsletterName: 'Gideon MD',
             serverMessageId: -1
         }
     }
@@ -209,12 +215,13 @@ async function handleMessages(sock, messageUpdate, printLog) {
                 await handleChatbotResponse(sock, chatId, message, userMessage, senderId);
                 await Antilink(message, sock);
                 await handleBadwordDetection(sock, chatId, message, userMessage, senderId);
+                await handleTagDetection(sock, chatId, message, senderId);
             }
             return;
         }
 
         // List of admin commands
-        const adminCommands = ['.mute', '.unmute', '.ban', '.unban', '.promote', '.demote', '.kick', '.tagall', '.antilink'];
+        const adminCommands = ['.mute', '.unmute', '.ban', '.unban', '.promote', '.demote', '.kick', '.tagall', '.antilink', '.antitag'];
         const isAdminCommand = adminCommands.some(cmd => userMessage.startsWith(cmd));
 
         // List of owner commands
@@ -415,6 +422,23 @@ async function handleMessages(sock, messageUpdate, printLog) {
                 }
                 await handleAntilinkCommand(sock, chatId, userMessage, senderId, isSenderAdmin);
                 break;
+            case userMessage.startsWith('.antitag'):
+                if (!isGroup) {
+                    await sock.sendMessage(chatId, {
+                        text: 'This command can only be used in groups.',
+                        ...channelInfo
+                    });
+                    return;
+                }
+                if (!isBotAdmin) {
+                    await sock.sendMessage(chatId, {
+                        text: 'Please make the bot an admin first.',
+                        ...channelInfo
+                    });
+                    return;
+                }
+                await handleAntitagCommand(sock, chatId, userMessage, senderId, isSenderAdmin);
+                break;
             case userMessage === '.meme':
                 await memeCommand(sock, chatId, message);
                 break;
@@ -487,7 +511,7 @@ async function handleMessages(sock, messageUpdate, printLog) {
                 break;
             case userMessage.startsWith('.lyrics'):
                 const songTitle = userMessage.split(' ').slice(1).join(' ');
-                await lyricsCommand(sock, chatId, songTitle);
+                await lyricsCommand(sock, chatId, songTitle, message);
                 break;
             case userMessage.startsWith('.simp'):
                 const quotedMsg = message.message?.extendedTextMessage?.contextInfo?.quotedMessage;
@@ -787,7 +811,178 @@ async function handleMessages(sock, messageUpdate, printLog) {
                 await autoreadCommand(sock, chatId, message);
                 commandExecuted = true;
                 break;
+            case userMessage.startsWith('.heart'):
+                await handleHeart(sock, chatId, message);
+                break;
+            case userMessage.startsWith('.horny'):
+                {
+                    const parts = userMessage.trim().split(/\s+/);
+                    const args = ['horny', ...parts.slice(1)];
+                    await miscCommand(sock, chatId, message, args);
+                }
+                break;
+            case userMessage.startsWith('.circle'):
+                {
+                    const parts = userMessage.trim().split(/\s+/);
+                    const args = ['circle', ...parts.slice(1)];
+                    await miscCommand(sock, chatId, message, args);
+                }
+                break;
+            case userMessage.startsWith('.lgbt'):
+                {
+                    const parts = userMessage.trim().split(/\s+/);
+                    const args = ['lgbt', ...parts.slice(1)];
+                    await miscCommand(sock, chatId, message, args);
+                }
+                break;
+            case userMessage.startsWith('.lolice'):
+                {
+                    const parts = userMessage.trim().split(/\s+/);
+                    const args = ['lolice', ...parts.slice(1)];
+                    await miscCommand(sock, chatId, message, args);
+                }
+                break;
+            case userMessage.startsWith('.simpcard'):
+                {
+                    const parts = userMessage.trim().split(/\s+/);
+                    const args = ['simpcard', ...parts.slice(1)];
+                    await miscCommand(sock, chatId, message, args);
+                }
+                break;
+            case userMessage.startsWith('.tonikawa'):
+                {
+                    const parts = userMessage.trim().split(/\s+/);
+                    const args = ['tonikawa', ...parts.slice(1)];
+                    await miscCommand(sock, chatId, message, args);
+                }
+                break;
+            case userMessage.startsWith('.its-so-stupid'):
+                {
+                    const parts = userMessage.trim().split(/\s+/);
+                    const args = ['its-so-stupid', ...parts.slice(1)];
+                    await miscCommand(sock, chatId, message, args);
+                }
+                break;
+            case userMessage.startsWith('.namecard'):
+                {
+                    const parts = userMessage.trim().split(/\s+/);
+                    const args = ['namecard', ...parts.slice(1)];
+                    await miscCommand(sock, chatId, message, args);
+                }
+                break;
 
+            case userMessage.startsWith('.oogway2'):
+            case userMessage.startsWith('.oogway'):
+                {
+                    const parts = userMessage.trim().split(/\s+/);
+                    const sub = userMessage.startsWith('.oogway2') ? 'oogway2' : 'oogway';
+                    const args = [sub, ...parts.slice(1)];
+                    await miscCommand(sock, chatId, message, args);
+                }
+                break;
+            case userMessage.startsWith('.tweet'):
+                {
+                    const parts = userMessage.trim().split(/\s+/);
+                    const args = ['tweet', ...parts.slice(1)];
+                    await miscCommand(sock, chatId, message, args);
+                }
+                break;
+            case userMessage.startsWith('.ytcomment'):
+                {
+                    const parts = userMessage.trim().split(/\s+/);
+                    const args = ['youtube-comment', ...parts.slice(1)];
+                    await miscCommand(sock, chatId, message, args);
+                }
+                break;
+            case userMessage.startsWith('.comrade'):
+            case userMessage.startsWith('.gay'):
+            case userMessage.startsWith('.glass'):
+            case userMessage.startsWith('.jail'):
+            case userMessage.startsWith('.passed'):
+            case userMessage.startsWith('.triggered'):
+                {
+                    const parts = userMessage.trim().split(/\s+/);
+                    const sub = userMessage.slice(1).split(/\s+/)[0];
+                    const args = [sub, ...parts.slice(1)];
+                    await miscCommand(sock, chatId, message, args);
+                }
+                break;
+            case userMessage.startsWith('.animu'):
+                {
+                    const parts = userMessage.trim().split(/\s+/);
+                    const args = parts.slice(1);
+                    await animeCommand(sock, chatId, message, args);
+                }
+                break;
+            // animu aliases
+            case userMessage.startsWith('.nom'):
+            case userMessage.startsWith('.poke'):
+            case userMessage.startsWith('.cry'):
+            case userMessage.startsWith('.kiss'):
+            case userMessage.startsWith('.pat'):
+            case userMessage.startsWith('.hug'):
+            case userMessage.startsWith('.wink'):
+            case userMessage.startsWith('.facepalm'):
+            case userMessage.startsWith('.face-palm'):
+            case userMessage.startsWith('.animuquote'):
+            case userMessage.startsWith('.quote'):
+            case userMessage.startsWith('.neko'):
+            case userMessage.startsWith('.waifu'):
+            case userMessage.startsWith('.loli'):
+                {
+                    const parts = userMessage.trim().split(/\s+/);
+                    let sub = parts[0].slice(1);
+                    if (sub === 'facepalm') sub = 'face-palm';
+                    if (sub === 'quote' || sub === 'animuquote') sub = 'quote';
+                    await animeCommand(sock, chatId, message, [sub]);
+                }
+                break;
+            case userMessage === '.crop':
+                await stickercropCommand(sock, chatId, message);
+                commandExecuted = true;
+                break;
+            case userMessage.startsWith('.pies'):
+                {
+                    const parts = rawText.trim().split(/\s+/);
+                    const args = parts.slice(1);
+                    await piesCommand(sock, chatId, message, args);
+                    commandExecuted = true;
+                }
+                break;
+            case userMessage === '.china':
+                await piesAlias(sock, chatId, message, 'china');
+                commandExecuted = true;
+                break;
+            case userMessage === '.indonesia':
+                await piesAlias(sock, chatId, message, 'indonesia');
+                commandExecuted = true;
+                break;
+            case userMessage === '.japan':
+                await piesAlias(sock, chatId, message, 'japan');
+                commandExecuted = true;
+                break;
+            case userMessage === '.korea':
+                await piesAlias(sock, chatId, message, 'korea');
+                commandExecuted = true;
+                break;
+            case userMessage === '.hijab':
+                await piesAlias(sock, chatId, message, 'hijab');
+                commandExecuted = true;
+                break;
+            case userMessage.startsWith('.update'):
+                {
+                    const parts = rawText.trim().split(/\s+/);
+                    const zipArg = parts[1] && parts[1].startsWith('http') ? parts[1] : '';
+                    await updateCommand(sock, chatId, message, senderIsSudo, zipArg);
+                }
+                commandExecuted = true;
+                break;
+            case userMessage.startsWith('.removebg') || userMessage.startsWith('.rmbg') || userMessage.startsWith('.nobg'):
+                await removebgCommand.exec(sock, message, userMessage.split(' ').slice(1));
+                break;
+            case userMessage.startsWith('.remini') || userMessage.startsWith('.enhance') || userMessage.startsWith('.upscale'):
+                await reminiCommand(sock, chatId, message, userMessage.split(' ').slice(1));
+                break;
             default:
                 if (isGroup) {
                     // Handle non-command group messages
@@ -796,6 +991,7 @@ async function handleMessages(sock, messageUpdate, printLog) {
                     }
                     await Antilink(message, sock);
                     await handleBadwordDetection(sock, chatId, message, userMessage, senderId);
+                    await handleTagDetection(sock, chatId, message, senderId);
                 }
                 commandExecuted = false;
                 break;
@@ -870,11 +1066,8 @@ async function handleGroupParticipantUpdate(sock, update) {
             const groupName = groupMetadata.subject;
             const groupDesc = groupMetadata.desc || 'No description available';
 
-            // Get welcome message from data
-            const data = JSON.parse(fs.readFileSync('./data/userGroupData.json'));
-            const welcomeData = data.welcome[id];
-            const welcomeMessage = welcomeData?.message || 'Welcome {user} to the group! 🎉';
-            const channelId = welcomeData?.channelId || '120363421834739891@newsletter';
+            // Use simple default welcome message
+            const welcomeMessage = 'Welcome {user} to {group}! 🎉';
 
             // Send welcome message for each new participant
             for (const participant of participants) {
@@ -886,16 +1079,7 @@ async function handleGroupParticipantUpdate(sock, update) {
 
                 await sock.sendMessage(id, {
                     text: formattedMessage,
-                    mentions: [participant],
-                    contextInfo: {
-                        forwardingScore: 1,
-                        isForwarded: true,
-                        forwardedNewsletterMessageInfo: {
-                            newsletterJid: channelId,
-                            newsletterName: 'G.praiseBot MD',
-                            serverMessageId: -1
-                        }
-                    }
+                    mentions: [participant]
                 });
             }
         }
@@ -910,11 +1094,8 @@ async function handleGroupParticipantUpdate(sock, update) {
             const groupMetadata = await sock.groupMetadata(id);
             const groupName = groupMetadata.subject;
 
-            // Get goodbye message from data
-            const data = JSON.parse(fs.readFileSync('./data/userGroupData.json'));
-            const goodbyeData = data.goodbye[id];
-            const goodbyeMessage = goodbyeData?.message || 'Goodbye {user} 👋';
-            const channelId = goodbyeData?.channelId || '120363421834739891@newsletter';
+            // Use simple default goodbye message
+            const goodbyeMessage = 'Goodbye {user} 👋';
 
             // Send goodbye message for each leaving participant
             for (const participant of participants) {
@@ -925,16 +1106,7 @@ async function handleGroupParticipantUpdate(sock, update) {
 
                 await sock.sendMessage(id, {
                     text: formattedMessage,
-                    mentions: [participant],
-                    contextInfo: {
-                        forwardingScore: 1,
-                        isForwarded: true,
-                        forwardedNewsletterMessageInfo: {
-                            newsletterJid: channelId,
-                            newsletterName: 'G.praiseBot MD',
-                            serverMessageId: -1
-                        }
-                    }
+                    mentions: [participant]
                 });
             }
         }
